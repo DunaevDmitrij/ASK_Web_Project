@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block titlePage %}Login Page{% endblock %}
+
+{% block title %}Login Page{% endblock %}
+
+{% block places %}
+  <li><a href="/">MainPage</a></li>
+  <li><a href="/question">Questions</a></li>
+{% endblock %}
+
+{% block middle %}
+  {% if curUser.is_authenticated %}
+  <h1 style="color:green">You are already logged in</h1>
+  {% else %}
+  <h1>Use form in right top button to login</h1>
+  {% endif %}
+  {% if stat == "badData" %}
+  <h1 style="color:red">Wrong Username/Password pair</h1>
+  {% endif %}
+  {% if stat == "unactive" %}
+  <h1>Your account isn't actvated yet</h1>
+  {% endif %}
+{% endblock %}

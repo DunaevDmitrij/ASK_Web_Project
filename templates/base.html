@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}Main Page{% endblock %}</title>
+  <meta charset="utf-8">
+  <!--Style-->
+  <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+  <link href="/css/css-overlay.css" rel="stylesheet">
+  <link href="/css/base-style.css" rel="stylesheet">
+  <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+  </style>
+  {% block css %} {% endblock %}
+  <!--JS-->
+  <script src = "/jQuery/jquery-1.9.1.min.js"></script>
+  <script src = "/jQuery/jquery.json-2.4.min.js"></script>
+  <script src = "/scripts/js-base.js"></script>
+  {% block scripts %} {% endblock %}
+</head>
+<body>
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="brand" href="/">{% block titlePage %}Main Page{% endblock %}</a>
+        <div class="nav-collapse collapse">
+          <ul class="nav">
+            <li class="dropdown" id="navigation">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Navigation<b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li class="nav-header">Places</li>
+                {% block places %}<li><a href="/question">Questions</a></li>{% endblock %}
+                <li class="divider"></li>
+                <li class="nav-header">About</li>
+                <li><a href="/contacts/">Contacts</a></li>
+                <li><a href="/rules/">Rules</a></li>
+              </ul>
+            </li>
+            {% if curUser.is_authenticated %}
+            <li class="dropdown" id="newQuestion">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">New Question<b class="caret"></b></a>
+              <form method="POST" action="/newquestion/" class="dropdown-menu">{% csrf_token %}
+                <p>Header</p>
+                {{ newQuestionForm.header }}
+                <p>Content</p>
+                {{ newQuestionForm.content }}
+                <button type="submit" class="btn">Post</button>
+                <a class="btn" href="/newquestion/">Full Page</a>
+              </form>
+            </li>
+            {% endif %}
+          </ul>
+          <ul class="nav pull-right">
+          {% if curUser.is_authenticated %}
+            <li class="dropdown" id="userdata">
+              <a href="#" class="dropdown-toggle" id="userName" data-toggle="dropdown">{{curUser.username}}<b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li class="nav-header">Direction</li>
+                <li><a href="/user/">User page</a></li>
+                <li class="divider"></li>
+                <li><a href="/logout/">Logout</a></li>
+              </ul>
+            </li>
+          {% else %}
+            <li class="dropdown" id="login">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{curUser.username}}<b class="caret"></b></a> 
+            <ul class="dropdown-menu">
+                <form method="POST" action="/login/">{% csrf_token %}
+                  <li>Username</li>
+                  <li>{{ loginForm.name }}</li>
+                  <li>Password</li>
+                  <li>{{ loginForm.password }}</li>
+                  <button type="submit" class="btn">Sing In</button>
+                </form>
+                <li class="divider"></li>
+                <li><a href="/registration" class = "btn">Register</a></li>
+                <li><a href="/activate/" class = "btn">Activate</a></li>
+              </ul>
+            </li>
+          {% endif %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class = "container">
+    <div class = "row">
+      <div class="span10">
+      {% block middle %}
+        <h1>Index Page</h1>
+        <p>Test tag</p>
+        <p>{{us.nickname}}<p>
+      {% endblock %}
+      </div>
+      <div class="span2 rightPanel">
+      {% block right %}
+        <form action="/search" method="GET">{% csrf_token %}
+          <p>Search:</p>
+          {{ searchForm.question }}
+          <button type="submit" class="btn">Search</button>
+       </form>
+       <hr>
+       <p>Popular tags</p>
+       {% for tag in tags %}
+       <a href="/search?tag={{tag.name}}">{{tag.name}}</a>
+       <br>
+       {% endfor %}
+       <br>
+       <p>Last Users</p>
+       {% for user in lastUsers %}
+       <a href="/user/{{user.username}}">{{user.username}}</a>
+       <br>
+       {% endfor %}
+    {% endblock %}
+    </div>
+  </div>
+</div>
+<!--Overlays-->
+<div id="overlay">
+  <div id="dataInOverlay">
+    {% block overlays %}{% endblock %}
+  </div>
+  <a id="overlayCloser" class="btn">Close</a>
+</div>
+<!-- Bootstrap scripts -->                                                     
+<script type="text/javascript" src="/bootstrap/js/bootstrap-dropdown.js"></script>  
+</body>
+</html>

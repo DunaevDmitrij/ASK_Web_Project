@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block titlePage %}Main Page{% endblock %}
+
+{% block title %}Main Page{% endblock %}
+
+{% block places %}
+	<li><a href="/question">Questions</a></li>
+{% endblock %}
+
+{% block scripts %}
+<script src = "/scripts/js-ajax-settings.js"></script>
+<script src="/scripts/js-tests.js"></script>
+<script>
+  $(function(){
+    $("#overlayOpener").click(function(){
+      $("#overlay").show();
+    });
+  });
+</script>
+{% endblock %}
+
+{% block middle %}
+	<h1>La Index Page</h1>
+  <hr>
+  <form method="POST" id="ajax" action="">
+    {% csrf_token %}
+    <input id="js-text" type="text" />
+    <input id="js-btn" type="submit" value="send"/>
+  </form>
+  <button id="js-TEST">WTF</button>
+  <div id="data"></div>
+  <button id="overlayOpener">OpenOverlay</button>
+{% endblock %}
+
+{% block overlays %}
+<p>Data</p>
+{% endblock %}

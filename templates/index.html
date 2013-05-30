@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block titlePage %}Main Page{% endblock %}
+
+{% block title %}Main Page{% endblock %}
+
+{% block places %}
+	<li><a href="/question">Questions</a></li>
+{% endblock %}
+
+{% block css %}
+  <link href="/css/index-style.css" rel="stylesheet">
+{% endblock %}
+
+{% block scripts %}
+<script src = "/scripts/js-ajax-settings.js"></script>
+<script src="/scripts/js-index.js"></script>
+{% endblock %}
+
+{% block middle %}
+	<h1>Welcome to Ask project</h1>
+  <hr>
+  <div>System created for educational purpouses by student of TechnoPark@mail.ru in 2013. For more information about creator visit 'Contacts' page.</div>
+  <h2>Have a good day!</h2>
+  <br>
+  <p>Here are the things you should and can do on this project:</p>
+  <hr>
+  <h3>Account creation and work</h3>
+  <div class="row">
+    <div class="span2 place" id="registrationWay">
+      <a href="/registration/">Registration page</a>
+      <p>Here you can create your account</p>
+    </div>
+    <div class=" span2 place" id="activateWay" >
+      <a href="/activate/">Activation page</a>
+      <p>Here you can activate you account with data from your e-mail you get after registration</p>
+    </div>
+    <div class="span2 place" id="loginWay">
+      <a href="/login/">Login page</a>
+      <p>Here you can login with your activated account</p>
+    </div>
+    <div class="span2 place" id="userpageWay">
+      <a href="/user/">User page</a>
+      <p>Here you can access your activated account and check status of your question/answers</p>
+    </div>
+  </div>
+  <hr>
+  <h3>Creating questions, answering and commenting them</h3>
+  <div class="row">
+    <div class="span2 place" id="newquestionWay">
+      <a href="/newquestion/">New question page</a>
+      <p>Here you can create new questions (only if you have account)</p>
+    </div>
+    <div class=" span2 place" id="questionsWay" >
+      <a href="/question">Questions page</a>
+      <p>Here you can view questions of others, try to answer it and rate question</p>
+    </div>
+  </div>
+  <h3>Moar information about project</h3>
+  <div class="row">
+    <div class="span2 place" id="contactWay">
+      <a href="/contacts/">Contacats page</a>
+      <p>Here you can find ways to leave feedback to creator</p>
+    </div>
+    <div class=" span2 place" id="rulesWay" >
+      <a href="/rules/">Rules page</a>
+      <p>Here you (can) find information about rules... kind of...</p>
+    </div>
+  </div>
+ 
+{% endblock %}

@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block titlePage %}Question {{quest.header}}{% endblock %}
+
+{% block title %}Question{% endblock %}
+
+{% block scripts %}
+<script src = "/scripts/js-ajax-settings.js"></script>
+<script src="/scripts/js-questionID.js"></script>
+{% endblock %}
+
+{% block places %}
+  <li><a href="/">Main Page</a></li>
+  <li><a href="/question">Questions</a></li>
+{% endblock %}
+
+{% block middle %}
+  <div class="row">
+    <h1>{{quest.header}}</h1>
+    {% if rateStat %}
+    <a href="#" class = "span1 voter" id="js-rateUp">+</a>
+    <a href="#" class = "span1 voter" id="js-rateDown">-</a>
+    {% endif %}
+    <br>
+    <div class="span1">Rating: </div>
+    <div id="rating" class="span1">{{rating}}</div>
+    <br>
+    <div class="span1">Views: </div>
+    <div class="span1">{{quest.counter}}</div>
+    <br>
+    <br>
+    <p>{{quest.content}}</p>
+    <a href="/user/{{quest.author.username}}" class = "pull-right">{{quest.author.username}}</a>
+    <br>
+    <p class = "pull-right">{{quest.createDate}}</p>
+    <br>
+    <p>Tags</p>
+    {% for tag in quest.tag.all %}
+    <a href="/search?tag={{tag}}">{{ tag.name }}</a>
+    {% endfor %}
+    <br>
+    <a class="btn comms" id="question">Comments:</a>
+    <br>
+    <div id="questionComments">
+      {% if curUser.is_authenticated %}
+      <p>New comment:</p>
+      <form class="comment" id="newQuestComment" method="POST" action="/ajax/comment">{% csrf_token %}
+        {{ newCommentForm.text }}
+        <input type="hidden" name="typeID" value="10">
+        <input type="hidden" name="elemID" value="{{quest.id}}">
+        <button type="submit" class="btn">Comment</button>
+      </form>
+      {% endif %}
+      <hr>
+      {% for qcom in questComments %}
+      <p>{{qcom.text}}</p>
+      <a href="/user/{{qcom.author.username}}" class = "pull-right">{{qcom.author.username}}</a>
+      <br>
+      <p class = "pull-right">{{qcom.createDate}}</p>
+      <hr>
+      {% endfor %}
+    </div>
+  </div>
+  <hr>
+  <hr>
+  <h2>Answers:</h2>
+  {% if page.has_previous %}
+  <a href="/question?page={{ page.previous_page_number }}" class="span1">&lt</a>
+  {% endif %}
+  <a href="#" class="span1">{{page.number}}</a>
+  {% if page.has_next %}
+  <a href="/question?page={{ page.next_page_number }}" class="span1">&gt</a>
+  {% endif %}
+  <br>
+  {% if curUser.is_authenticated %}
+  <form id="answerForm" method="POST" action="/ajax/answer">{% csrf_token %}
+    <p>New answer:</p>
+    {{ newAnswerForm.content }}
+    <input id="questionID" type="hidden" name="question" value="{{quest.id}}">
+    <input id="authorID" type="hidden" name="author" value="{{curUser.id}}">
+    <button type="submit" class="btn">Answer</button>
+  </form>
+  <hr>
+  {% endif %}
+  <div id="answersdata">
+    {% for an in page %}
+    <p>{{an.content}}</p>
+    {% if quest.solved %}
+    <b>Right Answer!</b>
+    {% else %}
+    {% if mine %}
+    <a class="btn righter" id="{{an.id}}right">Right flag</a>
+    {% endif %}
+    {% endif %}
+    <a href="/user/{{an.author.username}}" class = "pull-right">{{an.author.username}}</a>
+    <br>
+    <p class = "pull-right">{{an.createDate}}</p>
+    <a class="btn comms" id="answer{{an.id}}">Comments:</a>
+    <div id="answer{{an.id}}Comments">
+      {% if curUser.is_authenticated %}
+      <form class="comment" id="newCommentAns{{an.id}}" method="POST" action="/ajax/comment">{% csrf_token %}
+        <p>New comment:</p>
+        {{ newCommentForm.text }}
+        <input type="hidden" name="typeID" value="12">
+        <input type="hidden" name="elemID" value="{{an.id}}">
+        <button type="submit" class="btn">Comment</button>
+      </form>
+      {% endif %}
+      {% for acom in answComments %}
+      {% if acom.object_id == an.id %}
+      <p>{{acom.text}}</p>
+      <a href="/user/{{acom.author.username}}" class = "pull-right">{{acom.author.username}}</a>
+      <br>
+      <p class = "pull-right">{{acom.createDate}}</p>
+      <hr>
+      {% endif %}
+      {% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+  <hr>
+  {% if page.has_previous %}
+  <a href="/question?page={{ page.previous_page_number }}" class="span1">&lt</a>
+  {% endif %}
+  <a href="#" class="span1">{{page.number}}</a>
+  {% if page.has_next %}
+  <a href="/question?page={{ page.next_page_number }}" class="span1">&gt</a>
+  {% endif %}
+{% endblock %}

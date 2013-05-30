@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block titlePage %}Activation{% endblock %}
+
+{% block title %}Activation{% endblock %}
+
+{% block places %}
+  <li><a href="/">Main Page</a></li>
+  <li><a href="/question">Questions</a></li>
+{% endblock %}
+
+{% block middle %}
+{% if status == "actSuccess" %}
+<h1 style="color:green">Activation successfull, you can use site</h1>
+{% endif %}
+{% if status == "actFail" %}
+<h1 style="color:red">Activation failure, no such user</h1>
+{% endif %}
+{% if not status == "actSuccess" %}
+<form method="POST" action="/activate/">{% csrf_token %}
+  <h1>Your token:</h1>
+  {{ activationForm.token }}
+  <p><button type="submit" class="btn">Activate</button></p>
+</form>
+{% endif %}
+{% endblock %}

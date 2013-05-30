@@ -1,0 +1,22 @@
+#overlay {
+  position:fixed;
+  top:20%;
+  left:30%;
+  width:400px;
+  height:200px;
+  display:none;
+  z-index:50;
+  background-color:#81f8ef;
+  border-radius:20px;
+  padding:20px 20px 20px 20px;
+}
+
+#overlayCloser {
+  position:absolute;
+  bottom:10%;
+  left:42%;
+}
+
+#dataInOverlay {
+  text-align:center;
+}

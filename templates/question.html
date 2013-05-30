@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block titlePage %}Questions{% endblock %}
+
+{% block title %}Questions{% endblock %}
+
+{% block places %}
+  <li><a href="/">Main page</a></li>
+{% endblock %}
+
+{% block middle %}
+  <div class ="row">
+    {% if page.has_previous %}
+    <a href="/question?{{sort}}&page={{ page.previous_page_number }}" class="span1">&lt</a>
+    {% endif %}
+    <a href="#" class="span1">{{page.number}}</a>
+    {% if page.has_next %}
+    <a href="/question?{{sort}}&page={{ page.next_page_number }}" class="span1">&gt</a>
+    {% endif %}
+    <br>
+    <p class="span1">Sort:<p>
+    <a href="/question?sort=date" class="span1">By date</a>
+    <a href="/question?sort=rating" class="span1">By rating</a>
+    {% for quest in page %}
+    <hr>
+    <div>
+      <h2 {% if quest.solved %}style="color:green"{% endif %}>{{quest.header}}</h2>
+      <p>{{quest.content}}</p>
+      <a href="/user/{{quest.author.username}}" class = "pull-right">{{quest.author.username}}</a>
+      <br>
+      <p class = "pull-right">{{quest.createDate}}</p>
+      <p><a class="btn" href="/question/{{quest.id}}">View answers &raquo;</a></p>
+    </div>
+    {% endfor %}
+    {% if page.has_previous %}
+    <a href="/question?{{sort}}&page={{ page.previous_page_number }}" class="span1">&lt</a>
+    {% endif %}
+    <a href="#" class="span1">{{page.number}}</a>
+    {% if page.has_next %}
+    <a href="/question?{{sort}}&page={{ page.next_page_number }}" class="span1">&gt</a>
+    {% endif %}
+  </div>
+{% endblock %}

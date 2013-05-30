@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block titlePage %}New Question Page{% endblock %}
+
+{% block title %}New Question Page{% endblock %}
+
+{% block places %}
+  <li><a href="/">Main Page</a></li>
+  <li><a href="/queston">Questions</a></li>
+{% endblock %}
+
+{% block middle %}
+{% if status == "alreadyEx" %}
+<h1 style="color:red">Question with such header alaready exist.</h1>
+{% endif %}
+{% if curUser.is_authenticated %}
+  <form method="POST" action="/newquestion/">{% csrf_token %}
+    <p>Header</p>
+    {{ newQuestionForm.header }}
+    <p>Content</p>
+    {{ newQuestionForm.content }}
+    <p>Tags</p>
+    <p>{{ newQuestionForm.tag1 }}</p>
+    <p>{{ newQuestionForm.tag2 }}</p>
+    <p>{{ newQuestionForm.tag3 }}</p>
+    <p><button type="submit" class="btn">Post</button></p>
+  </form>
+{% else %}
+  <h1> Please, login to create questions </h1>
+{% endif %}
+{% endblock %}

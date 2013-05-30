@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block titlePage %}Search{% endblock %}
+
+{% block title %}Search{% endblock %}
+
+{% block places %}
+  <li><a href="/">Main page</a></li>
+  <li><a href="/question">Questions</a></li>
+{% endblock %}
+
+{% block middle %}
+<div class ="row">
+  {% if search %}
+  <h1>You searched {{search}}</h1>
+  {% endif %}
+  {% if tag %}
+  <h2>Your tag {{tag}}</h2>
+  {% endif %}
+  <hr>
+  {% for quest in data %}
+  <div>
+    <h2>{{quest.header}}</h2>
+    <p>{{quest.content}}</p>
+    <a href="/user/{{quest.author.username}}" class = "pull-right">{{quest.author.username}}</a>
+    <br>
+    <p class = "pull-right">{{quest.createDate}}</p>
+    <p><a class="btn" href="/question/{{quest.id}}">View answers &raquo;</a></p>
+  </div>
+  <hr>
+  {% endfor %}
+</div>
+
+{% endblock %}

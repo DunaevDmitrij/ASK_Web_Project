@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block titlePage %}User Page{% endblock %}
+
+{% block title %}User Page{% endblock %}
+
+{% block places %}
+  <li><a href="/">MainPage</a></li>
+  <li><a href="/question">Questions</a></li>
+{% endblock %}
+
+{% block middle %}
+  <h1 style="text-align:center;">{{user.username}}</h1>
+  <h2>Questions:</h2>
+  <div class ="row">
+   {% for quest in questions %}
+   <div>
+     <h3>{{quest.header}}</h3>
+     <p>{{quest.content}}</p> 
+     <br>
+     <p class = "pull-right">{{quest.createDate}}</p>
+     <p><a class="btn" href="/question/{{quest.id}}">View answers &raquo;</a></p>
+  </div>
+  <hr>
+  {% endfor %}
+  </div>
+  <hr>
+  <h2>Answers:</h2>
+  <hr>
+  <div class="row">
+  {% for an in answers %}
+  <div>
+    <p>{{an.content}}</p>
+    {% if an.rightFlag %}<b>Right Answer!</b>{% endif %}
+    <br>
+    <p class = "pull-right">{{an.createDate}}</p>
+    <br>
+    <p class="pull-right"><a href = "/question/{{an.question.id}}">Source</a></p>
+    <hr>
+  </div>
+  {% endfor %}
+  <hr>
+  <h2>Last Notifications:</h2>
+  <hr>
+  {% for notif in lastNotifs %}
+  <div>
+    {% if notif.answer_comment %}
+    <p>Comment</p>
+    <p>{{notif.comment.text}}</p>
+    <p>From <a href="/user/{{notif.comment.author}}/">{{notif.comment.author}}</a></p>
+    <p>To "{{notif.comment.content_object.content}}"</p>
+    {% else %}
+    <p>Answer</p>
+    <p>{{notif.answer.content}}</p>
+    <p>From <a href="/user/{{notif.answer.author}}/">{{notif.answer.author}}</a></p>
+    <p>To "{{notif.answer.header}}"</p>
+    {% endif %}
+    <hr>
+  </div>
+  {% endfor %}
+  </div>
+
+{% endblock %}

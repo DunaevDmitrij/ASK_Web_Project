@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block titlePage %}Registration Page{% endblock %}
+
+{% block title %}Registration Page{% endblock %}
+
+{% block places %}
+  <li><a href="/">MainPage</a></li>
+  <li><a href="/question">Questions</a></li>
+{% endblock %}
+
+{% block middle %}
+{% if curUser.is_authenticated %}
+<h1>You are already registered<h1>
+{% else %}
+{% if status == "registered" %}
+<h1 style = "color:green">Congrats, you are registered!</h1>
+<p>Check your email for activation data</p>
+{% endif %}
+{% if status == "alreadyEx" %}
+<h1 style = "color:red">Sorry, but this username already taken.</h1>
+<p>Please, choose another username</p>
+{% endif %}
+<form method="post" action="/registration/">{% csrf_token %}
+  <input class="span2" type="text" name="username"  placeholder="Username">
+  <input class="span2" type="text" name="email"  placeholder="E-mail">
+  <input class="span2" type="password" name="password" placeholder="Password">
+  <button type="submit" class="btn">Registr</button>
+</form>
+{% endif %}
+{% endblock %}
